@@ -1,0 +1,26 @@
+/* XPM */
+static char *collect1673397906[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c #071821",
+". c #306850",
+"X c #86C06C",
+"o c #E0F8CF",
+/* pixels */
+"oooooo    oooooo",
+"ooooo ooX. ooooo",
+"oooo ooooX. oooo",
+"oo  XXooXXX.  oo",
+"o X..XXXXX.... o",
+" XoX........X.. ",
+" .XooooXoXXX... ",
+" ...XXXXXX..... ",
+"o ............ o",
+"oo  ........  oo",
+"oooo        oooo",
+"ooooo .... ooooo",
+"oooo XXXX.. oooo",
+"oooo XXXX.. oooo",
+"oooo .XX... oooo",
+"ooooo      ooooo"
+};

@@ -1,0 +1,1 @@
+export DYLD_LIBRARY_PATH=/Users/seocha/Desktop/42Seoul/so_long/minilibx_mms_20200219

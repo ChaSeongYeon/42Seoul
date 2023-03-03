@@ -1,0 +1,26 @@
+/* XPM */
+static char *enemy_u11673482863[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c #071821",
+". c #E0F8CF",
+"X c #86C06C",
+"o c #E0F8CF",
+/* pixels */
+".......  .......",
+"...... oo ......",
+"..... oooo .....",
+".... oooooo ....",
+".... oooooo ....",
+"... XXXXXXXX ...",
+"..  oooooooo  ..",
+".. X        X ..",
+"... XXXXXXXX ...",
+".... XXXXXX ....",
+"... X      X ...",
+".. o XXXXXX o ..",
+".. o XXXXXX o ..",
+"...          ...",
+".... XX  XX ....",
+".....      ....."
+};
