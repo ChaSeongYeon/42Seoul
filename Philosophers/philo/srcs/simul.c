@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 10:50:41 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/04 18:07:15 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/06 21:42:58 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ static void	take_time(long long time)
 	{
 		end = get_time();
 		if ((end - start) >= time)
-		{	
-			printf("%d", 1);
 			break ;
-		}
 		usleep(10);
 	}
 }
@@ -90,7 +87,7 @@ void	thread(t_info *info, t_philo *philo)
 	while (i < info->num)
 	{
 		philo[i].t_last = get_time();
-		if (pthread_create(&(philo[i].th), NULL, simulation, &(philo[i])) != 0)
+		if (pthread_create(&(philo[i].th), NULL, &simulation, &(philo[i])) != 0)
 			exit_error("Fail to create thread");
 		i++;
 	}

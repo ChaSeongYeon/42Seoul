@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:08:14 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/04 16:58:25 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/06 20:35:47 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ static void	init_info(t_info *info, int argc, char *argv[])
 	if (info->num == 0)
 		exit_error("There must be at least one philosopher.");
 	info->flag = 0;
-	info->must_cnt = 0;
-	info->t_die = ft_atoi(argv[2]);
-	info->t_eat = ft_atoi(argv[3]);
-	info->t_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 	{
 		info->must_cnt = ft_atoi(argv[5]);
@@ -30,6 +26,10 @@ static void	init_info(t_info *info, int argc, char *argv[])
 	}
 	else
 		info->must_cnt = -1;
+	info->all_eat = 0;
+	info->t_die = ft_atoi(argv[2]);
+	info->t_eat = ft_atoi(argv[3]);
+	info->t_sleep = ft_atoi(argv[4]);
 	info->t_start = get_time();
 }
 
@@ -40,7 +40,7 @@ static void	init_mutex(t_info *info)
 	i = 0;
 	if (pthread_mutex_init(&(info->status), NULL))
 		exit_error("Status mutex error.");
-	info->forks = malloc(sizeof(pthread_mutex_t) * info->num);
+	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num);
 	if (!(info->forks))
 		exit_error("Malloc error.");
 	while (i < info->num)
@@ -56,7 +56,7 @@ static void	init_philo(t_info *info, t_philo **philo)
 	int			i;
 
 	i = 0;
-	*philo = malloc(sizeof(t_philo) * info->num);
+	*philo = (t_philo *)malloc(sizeof(t_philo) * info->num);
 	if (!(*philo))
 		exit_error("Malloc error.");
 	while (i < info->num)

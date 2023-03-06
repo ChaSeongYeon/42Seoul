@@ -6,19 +6,19 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 11:27:15 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/04 17:58:06 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/06 21:42:45 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-long long	get_time(void)
+long	get_time(void)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		exit_error("Failed to get time.");
-	return (time.tv_sec / 1000);
+	return (time.tv_usec / 1000);
 }
 
 static int	ft_isspace(char c)

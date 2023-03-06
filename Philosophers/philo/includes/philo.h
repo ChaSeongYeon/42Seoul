@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:16:21 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/04 16:31:35 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/06 21:33:19 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		exit_error(char *str);
 void		check_finished(t_info *info, t_philo *philo);
 
 /* utils.c */
-long long	get_time(void);
+long		get_time(void);
 int			ft_atoi(const char *str);
 
 #endif
