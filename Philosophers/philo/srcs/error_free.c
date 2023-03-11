@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 10:40:35 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/06 20:52:09 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/11 23:07:51 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	exit_error(char *str)
 
 void	check_finished(t_info *info, t_philo *philo)
 {
-	int			i;
-	long long	now;
+	int		i;
+	long	now;
 
 	while (!info->flag)
 	{
@@ -38,5 +38,19 @@ void	check_finished(t_info *info, t_philo *philo)
 			}
 			i++;
 		}
+	}
+}
+
+void	destroy_free(t_info *info, t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&(info->status));
+	while (i < info->num)
+	{
+		pthread_mutex_destroy(&(info->forks[i]));
+		free(&philo[i]);
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:08:14 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/06 20:35:47 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/11 22:28:18 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ int	main(int argc, char *argv[])
 	init_mutex(&info);
 	init_philo(&info, &philo);
 	thread(&info, philo);
+	destroy_free(&info, philo);
 	return (0);
 }

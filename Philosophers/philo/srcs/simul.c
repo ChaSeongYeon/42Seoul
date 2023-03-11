@@ -6,16 +6,16 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 10:50:41 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/06 21:42:58 by seocha           ###   ########.fr       */
+/*   Updated: 2023/03/11 22:53:52 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static void	take_time(long long time)
+static void	take_time(long time)
 {
-	long long	start;
-	long long	end;
+	long	start;
+	long	end;
 
 	start = get_time();
 	while (1)
@@ -29,12 +29,12 @@ static void	take_time(long long time)
 
 void	philo_log(t_info *info, t_philo *philo, char *str)
 {
-	long long	now;
+	long	now;
 
 	now = get_time();
 	pthread_mutex_lock(&(info->status));
 	if (!(info->flag))
-		printf("%lld %d %s\n", now - info->t_start, philo->id + 1, str);
+		printf("%ld %d %s\n", now - info->t_start, philo->id + 1, str);
 	pthread_mutex_unlock(&(info->status));
 }
 
@@ -60,7 +60,7 @@ static void	*simulation(void *arg)
 	t_info	*info;
 	t_philo	*philo;
 
-	philo = arg;
+	philo = (t_philo *)arg;
 	info = philo->info;
 	if (philo->id % 2 == 1)
 		usleep(1000);
@@ -87,7 +87,7 @@ void	thread(t_info *info, t_philo *philo)
 	while (i < info->num)
 	{
 		philo[i].t_last = get_time();
-		if (pthread_create(&(philo[i].th), NULL, &simulation, &(philo[i])) != 0)
+		if (pthread_create(&(philo[i].th), NULL, simulation, (void *)&(philo[i])))
 			exit_error("Fail to create thread");
 		i++;
 	}
