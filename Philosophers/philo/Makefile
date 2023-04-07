@@ -6,12 +6,12 @@
 #    By: seocha <seocha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/01 15:57:33 by seocha            #+#    #+#              #
-#    Updated: 2023/03/11 23:00:58 by seocha           ###   ########.fr        #
+#    Updated: 2023/04/07 14:35:04 by seocha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = philo
 

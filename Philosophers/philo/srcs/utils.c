@@ -6,19 +6,19 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 11:27:15 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/06 21:42:45 by seocha           ###   ########.fr       */
+/*   Updated: 2023/04/07 15:31:03 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-long	get_time(void)
+long long	get_time(void)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		exit_error("Failed to get time.");
-	return (time.tv_usec / 1000);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 static int	ft_isspace(char c)
@@ -49,8 +49,10 @@ static const char	*ft_space(const char *str)
 
 int	ft_atoi(const char *str)
 {
-	int	result;
+	int			cnt;
+	long long	result;
 
+	cnt = 0;
 	result = 0;
 	str = ft_space(str);
 	if (*str == '-' || *str == '+')
@@ -63,8 +65,9 @@ int	ft_atoi(const char *str)
 	{
 		result = result * 10 + *str - '0';
 		str++;
+		cnt++;
 	}
-	if (*str != '\0' || result > 999)
+	if (*str != '\0' || cnt > 10)
 		exit_error("The argument is not numeric or out of range.");
-	return (result);
+	return ((int)result);
 }

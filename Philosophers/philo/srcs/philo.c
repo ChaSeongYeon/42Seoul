@@ -6,32 +6,11 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:08:14 by seocha            #+#    #+#             */
-/*   Updated: 2023/03/11 22:28:18 by seocha           ###   ########.fr       */
+/*   Updated: 2023/04/07 15:30:14 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-static void	init_info(t_info *info, int argc, char *argv[])
-{
-	info->num = ft_atoi(argv[1]);
-	if (info->num == 0)
-		exit_error("There must be at least one philosopher.");
-	info->flag = 0;
-	if (argc == 6)
-	{
-		info->must_cnt = ft_atoi(argv[5]);
-		if (info->must_cnt == 0)
-			exit_error("Optional argument must be greater than zero.");
-	}
-	else
-		info->must_cnt = -1;
-	info->all_eat = 0;
-	info->t_die = ft_atoi(argv[2]);
-	info->t_eat = ft_atoi(argv[3]);
-	info->t_sleep = ft_atoi(argv[4]);
-	info->t_start = get_time();
-}
 
 static void	init_mutex(t_info *info)
 {
@@ -40,7 +19,7 @@ static void	init_mutex(t_info *info)
 	i = 0;
 	if (pthread_mutex_init(&(info->status), NULL))
 		exit_error("Status mutex error.");
-	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num);
+	info->forks = malloc(sizeof(pthread_mutex_t) * info->num);
 	if (!(info->forks))
 		exit_error("Malloc error.");
 	while (i < info->num)
@@ -51,13 +30,35 @@ static void	init_mutex(t_info *info)
 	}
 }
 
+static void	init_info(t_info *info, int argc, char *argv[])
+{
+	info->num = ft_atoi(argv[1]);
+	if (info->num == 0)
+		exit_error("There must be at least one philosopher.");
+	info->t_die = ft_atoi(argv[2]);
+	info->t_eat = ft_atoi(argv[3]);
+	info->t_sleep = ft_atoi(argv[4]);
+	info->flag = 0;
+	info->all_eat = 0;
+	info->t_start = get_time();
+	if (argc == 6)
+	{
+		info->must_cnt = ft_atoi(argv[5]);
+		if (info->must_cnt == 0)
+			exit_error("Optional argument must be greater than zero.");
+	}
+	else
+		info->must_cnt = -1;
+	init_mutex(info);
+}
+
 static void	init_philo(t_info *info, t_philo **philo)
 {
-	int			i;
+	int	i;
 
 	i = 0;
-	*philo = (t_philo *)malloc(sizeof(t_philo) * info->num);
-	if (!(*philo))
+	*philo = malloc(sizeof(t_philo) * info->num);
+	if (!philo)
 		exit_error("Malloc error.");
 	while (i < info->num)
 	{
@@ -82,9 +83,7 @@ int	main(int argc, char *argv[])
 		return (-1);
 	}
 	init_info(&info, argc, argv);
-	init_mutex(&info);
 	init_philo(&info, &philo);
 	thread(&info, philo);
-	destroy_free(&info, philo);
 	return (0);
 }
