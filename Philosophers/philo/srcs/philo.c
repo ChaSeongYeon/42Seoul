@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 21:08:14 by seocha            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/01 21:18:57 by seocha           ###   ########.fr       */
-=======
-/*   Updated: 2023/04/07 15:30:14 by seocha           ###   ########.fr       */
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
+/*   Created: 2023/04/07 16:30:42 by seocha            #+#    #+#             */
+/*   Updated: 2023/04/07 16:31:31 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +32,15 @@ static void	init_mutex(t_info *info)
 
 static void	init_info(t_info *info, int argc, char *argv[])
 {
-<<<<<<< HEAD
-	info->flag = 0;
-	info->all_eat = 0;
-	info->t_start = get_time();
-=======
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 	info->num = ft_atoi(argv[1]);
 	if (info->num == 0)
 		exit_error("There must be at least one philosopher.");
 	info->t_die = ft_atoi(argv[2]);
 	info->t_eat = ft_atoi(argv[3]);
 	info->t_sleep = ft_atoi(argv[4]);
-<<<<<<< HEAD
-=======
 	info->flag = 0;
 	info->all_eat = 0;
 	info->t_start = get_time();
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 	if (argc == 6)
 	{
 		info->must_cnt = ft_atoi(argv[5]);
@@ -61,11 +48,7 @@ static void	init_info(t_info *info, int argc, char *argv[])
 			exit_error("Optional argument must be greater than zero.");
 	}
 	else
-<<<<<<< HEAD
 		info->must_cnt = 0;
-=======
-		info->must_cnt = -1;
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 	init_mutex(info);
 }
 
@@ -75,11 +58,7 @@ static void	init_philo(t_info *info, t_philo **philo)
 
 	i = 0;
 	*philo = malloc(sizeof(t_philo) * info->num);
-<<<<<<< HEAD
 	if (!(*philo))
-=======
-	if (!philo)
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 		exit_error("Malloc error.");
 	while (i < info->num)
 	{

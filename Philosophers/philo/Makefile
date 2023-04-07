@@ -6,16 +6,13 @@
 #    By: seocha <seocha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/01 15:57:33 by seocha            #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2023/04/01 22:06:32 by seocha           ###   ########.fr        #
-=======
-#    Updated: 2023/04/07 14:35:04 by seocha           ###   ########.fr        #
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
+#    Updated: 2023/04/07 16:25:21 by seocha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
 
 NAME = philo
 

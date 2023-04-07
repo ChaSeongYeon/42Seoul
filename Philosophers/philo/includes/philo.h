@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 19:16:21 by seocha            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/01 20:21:54 by seocha           ###   ########.fr       */
-=======
-/*   Updated: 2023/04/07 14:39:44 by seocha           ###   ########.fr       */
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
+/*   Created: 2023/04/07 16:28:26 by seocha            #+#    #+#             */
+/*   Updated: 2023/04/07 16:28:49 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +64,7 @@ void		philo_log(t_info *info, t_philo *philo, char *str);
 /* error_free.c */
 void		exit_error(char *str);
 void		check_finished(t_info *info, t_philo *philo);
-<<<<<<< HEAD
 void		free_thread(t_info *info, t_philo *philo);
-=======
-void		destroy_free(t_info *info, t_philo *philo);
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 
 /* utils.c */
 long long	get_time(void);

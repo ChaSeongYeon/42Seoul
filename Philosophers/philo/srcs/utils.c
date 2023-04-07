@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/03 11:27:15 by seocha            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/01 20:20:21 by seocha           ###   ########.fr       */
-=======
-/*   Updated: 2023/04/07 15:31:03 by seocha           ###   ########.fr       */
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
+/*   Created: 2023/04/07 16:31:43 by seocha            #+#    #+#             */
+/*   Updated: 2023/04/07 16:32:17 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +49,8 @@ static const char	*ft_space(const char *str)
 
 int	ft_atoi(const char *str)
 {
-<<<<<<< HEAD
-=======
-	int			cnt;
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 	long long	result;
 
-	cnt = 0;
 	result = 0;
 	str = ft_space(str);
 	if (*str == '-' || *str == '+')
@@ -72,13 +63,8 @@ int	ft_atoi(const char *str)
 	{
 		result = result * 10 + *str - '0';
 		str++;
-		cnt++;
 	}
-<<<<<<< HEAD
 	if (*str != '\0' || result > 2147483647)
-=======
-	if (*str != '\0' || cnt > 10)
->>>>>>> bc56cb4d15d3a7bd7b8ab361120bcd3a6d34e47f
 		exit_error("The argument is not numeric or out of range.");
 	return ((int)result);
 }
