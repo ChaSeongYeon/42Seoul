@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:30:42 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 12:26:28 by seocha           ###   ########.fr       */
+/*   Updated: 2023/04/07 16:31:31 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	init_mutex(t_info *info)
 	int	i;
 
 	i = 0;
-	if (pthread_mutex_init(&(info->rw), NULL))
-		exit_error("RW mutex error.");
+	if (pthread_mutex_init(&(info->status), NULL))
+		exit_error("Status mutex error.");
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->num);
 	if (!(info->forks))
 		exit_error("Malloc error.");
@@ -41,8 +41,6 @@ static void	init_info(t_info *info, int argc, char *argv[])
 	info->flag = 0;
 	info->all_eat = 0;
 	info->t_start = get_time();
-	info->readers = 0;
-	info->writer = 0;
 	if (argc == 6)
 	{
 		info->must_cnt = ft_atoi(argv[5]);
@@ -51,6 +49,7 @@ static void	init_info(t_info *info, int argc, char *argv[])
 	}
 	else
 		info->must_cnt = 0;
+	init_mutex(info);
 }
 
 static void	init_philo(t_info *info, t_philo **philo)
@@ -84,7 +83,6 @@ int	main(int argc, char *argv[])
 		return (-1);
 	}
 	init_info(&info, argc, argv);
-	init_mutex(&info);
 	init_philo(&info, &philo);
 	thread(&info, philo);
 	return (0);

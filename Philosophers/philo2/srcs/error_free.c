@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:28:56 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 14:28:48 by seocha           ###   ########.fr       */
+/*   Updated: 2023/04/07 16:29:59 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ void	check_finished(t_info *info, t_philo *philo)
 	{
 		i = 0;
 		if ((info->must_cnt != 0) && (info->all_eat == info->num))
+		{
 			info->flag = 1;
-		while (i < info->num && !(info->flag))
+			break ;
+		}
+		while (i < info->num)
 		{
 			now = get_time();
-			read_lock(info);
-			if (now - philo[i].t_last >= info->t_die && !(info->flag))
+			if (now - philo[i].t_last >= info->t_die)
 			{
 				philo_log(info, philo, "died");
-				write_lock(info);
 				info->flag = 1;
-				write_unlock(info);
+				break ;
 			}
-			read_unlock(info);
 			i++;
 		}
 	}
@@ -57,5 +57,5 @@ void	free_thread(t_info *info, t_philo *philo)
 	}
 	free(philo);
 	free(info->forks);
-	pthread_mutex_destroy(&(info->rw));
+	pthread_mutex_destroy(&(info->status));
 }

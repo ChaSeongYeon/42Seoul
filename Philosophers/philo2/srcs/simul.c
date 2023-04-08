@@ -6,19 +6,19 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:24:40 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 14:24:04 by seocha           ###   ########.fr       */
+/*   Updated: 2023/04/08 22:22:42 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static void	take_time(long long time)
+static void	take_time(long long time, t_info *info)
 {
 	long long	start;
 	long long	end;
 
 	start = get_time();
-	while (1)
+	while (!(info->flag))
 	{
 		end = get_time();
 		if ((end - start) >= time)
@@ -31,25 +31,25 @@ void	philo_log(t_info *info, t_philo *philo, char *str)
 {
 	long long	now;
 
-	read_lock(info);
 	now = get_time();
+	pthread_mutex_lock(&(info->status));
 	if (!(info->flag))
 		printf("%lld %d %s\n", now - info->t_start, philo->id + 1, str);
-	read_unlock(info);
+	pthread_mutex_unlock(&(info->status));
 }
 
 static void	eat(t_info *info, t_philo *philo)
 {
 	pthread_mutex_lock(&(info->forks[philo->l_fork]));
-	philo_log(info, philo, "has taken a fork");
-	if (info->num != 1)
+	philo_log(info, philo, "has taken a left fork");
+	if (info->num != 1 && !(info->flag))
 	{
 		pthread_mutex_lock(&(info->forks[philo->r_fork]));
-		philo_log(info, philo, "has taken a fork");
+		philo_log(info, philo, "has taken a right fork");
 		philo_log(info, philo, "is eating");
 		philo->t_last = get_time();
 		(philo->eat_cnt)++;
-		take_time(info->t_eat);
+		take_time(info->t_eat, info);
 		pthread_mutex_unlock(&(info->forks[philo->r_fork]));
 	}
 	pthread_mutex_unlock(&(info->forks[philo->l_fork]));
@@ -63,21 +63,19 @@ static void	*simulation(void *arg)
 	philo = arg;
 	info = philo->info;
 	if (philo->id % 2)
-		usleep(100);
+		usleep(1000);
 	else
-		usleep(50);
+		usleep(500);
 	while (!(info->flag))
 	{
 		eat(info, philo);
 		if (philo->eat_cnt == info->must_cnt)
 		{
-			write_lock(info);
-			(info->all_eat)++;
-			write_unlock(info);
+			info->all_eat++;
 			break ;
 		}
 		philo_log(info, philo, "is sleeping");
-		take_time(info->t_sleep);
+		take_time(info->t_sleep, info);
 		philo_log(info, philo, "is thinking");
 	}
 	return (0);

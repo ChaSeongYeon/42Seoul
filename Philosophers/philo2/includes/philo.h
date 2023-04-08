@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:28:26 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 12:29:23 by seocha           ###   ########.fr       */
+/*   Updated: 2023/04/07 16:28:49 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ typedef struct s_info
 	int				flag;
 	int				all_eat;
 	int				must_cnt;
-	int				readers;
-	int				writer;
 	long long		t_die;
 	long long		t_eat;
 	long long		t_sleep;
 	long long		t_start;
-	pthread_mutex_t	rw;
+	pthread_mutex_t	status;
 	pthread_mutex_t	*forks;
 }	t_info;
 
@@ -71,11 +69,5 @@ void		free_thread(t_info *info, t_philo *philo);
 /* utils.c */
 long long	get_time(void);
 int			ft_atoi(const char *str);
-
-/* rw_mutex.c */
-void		read_lock(t_info *info);
-void		read_unlock(t_info *info);
-void		write_lock(t_info *info);
-void		write_unlock(t_info *info);
 
 #endif
