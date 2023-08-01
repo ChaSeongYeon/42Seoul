@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:30:42 by seocha            #+#    #+#             */
-/*   Updated: 2023/08/01 14:03:29 by seocha           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:12:46 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static int	init_mutex(t_info *info)
 		return (exit_error("Eat mutex error."));
 	if (pthread_mutex_init(&(info->cnt_m), NULL))
 		return (exit_error("Count mutex error."));
-	info->forks_m = malloc(sizeof(pthread_mutex_t) * info->num);
-	if (!(info->forks_m))
+	info->forks = malloc(sizeof(pthread_mutex_t) * info->num);
+	if (!(info->forks))
 		return (exit_error("Malloc error."));
 	while (i < info->num)
 	{
-		if (pthread_mutex_init(&(info->forks_m[i]), NULL))
+		if (pthread_mutex_init(&(info->forks[i]), NULL))
 			return (exit_error("Fork mutex error."));
 		i++;
 	}
@@ -48,6 +48,8 @@ static int	init_info(t_info *info, int argc, char *argv[])
 	if (info->num == -1 || info->t_die == -1 || info->t_eat == -1 \
 	|| info->t_sleep == -1)
 		return (-1);
+	info->flag_die = 0;
+	info->all_eat = 0;
 	info->t_start = get_time();
 	if (argc == 6)
 	{
@@ -59,8 +61,6 @@ static int	init_info(t_info *info, int argc, char *argv[])
 	}
 	else
 		info->must_eat_cnt = 0;
-	info->forks = malloc(sizeof(char) * info->num);
-	memset(info->forks, '0', sizeof(char) * info->num);
 	init_mutex(info);
 	return (0);
 }
@@ -96,7 +96,6 @@ int	main(int argc, char *argv[])
 		printf("%s\n", "Argument error.");
 		return (1);
 	}
-	memset(&info, 0, sizeof(t_info));
 	if (init_info(&info, argc, argv) == -1)
 		return (1);
 	if (init_philo(&info, &philo) == -1)

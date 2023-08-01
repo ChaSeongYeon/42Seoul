@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:28:26 by seocha            #+#    #+#             */
-/*   Updated: 2023/08/01 12:31:04 by seocha           ###   ########.fr       */
+/*   Updated: 2023/08/01 15:33:43 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_info
 	int				flag_die;
 	int				all_eat;
 	int				must_eat_cnt;
+	char			*forks;
 	long long		t_die;
 	long long		t_eat;
 	long long		t_sleep;
@@ -46,7 +47,7 @@ typedef struct s_info
 	pthread_mutex_t	eat_m;
 	pthread_mutex_t	cnt_m;
 	pthread_mutex_t	flag_m;
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	*forks_m;
 }	t_info;
 
 typedef struct s_phio
@@ -66,11 +67,16 @@ int			thread(t_info *info, t_philo *philo);
 /* error_free.c */
 int			exit_error(char *str);
 void		philo_log(t_info *info, t_philo *philo, char *str);
-void		check_finished(t_info *info, t_philo *philo);
+void		check_die(t_info *info, t_philo *philo);
+void		check_finished(t_info *info);
 void		free_thread(t_info *info, t_philo *philo);
 
 /* utils.c */
 long long	get_time(void);
 int			ft_atoi(const char *str);
+
+/* fork.c */
+void		take_left_fork(t_info *info, t_philo *philo);
+void		take_right_fork(t_info *info, t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:24:40 by seocha            #+#    #+#             */
-/*   Updated: 2023/08/01 16:36:47 by seocha           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:13:50 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,41 +29,30 @@ static void	take_time(long long time)
 
 static void	eat(t_info *info, t_philo *philo)
 {
-	pthread_mutex_lock(&(info->forks_m[philo->l_fork]));
-	take_left_fork(info, philo);
+	pthread_mutex_lock(&(info->forks[philo->l_fork]));
+	philo_log(info, philo, "has taken a fork");
 	pthread_mutex_lock(&(info->flag_m));
 	if (info->num != 1 && !(info->flag_die))
 	{
 		pthread_mutex_unlock(&(info->flag_m));
-		pthread_mutex_lock(&(info->forks_m[philo->r_fork]));
-		take_right_fork(info, philo);
+		pthread_mutex_lock(&(info->forks[philo->r_fork]));
+		philo_log(info, philo, "has taken a fork");
 		philo_log(info, philo, "is eating");
-		philo->t_last = get_time();
 		pthread_mutex_lock(&(info->eat_m));
+		philo->t_last = get_time();
 		(philo->eat_cnt)++;
 		pthread_mutex_unlock(&(info->eat_m));
 		take_time(info->t_eat);
-		info->forks[philo->r_fork] = '0';
-		pthread_mutex_unlock(&(info->forks_m[philo->r_fork]));
+		pthread_mutex_unlock(&(info->forks[philo->r_fork]));
 		pthread_mutex_lock(&(info->flag_m));
 	}
 	pthread_mutex_unlock(&(info->flag_m));
-	info->forks[philo->l_fork] = '0';
-	pthread_mutex_unlock(&(info->forks_m[philo->l_fork]));
+	pthread_mutex_unlock(&(info->forks[philo->l_fork]));
 }
 
 static void	sleep_think(t_info *info, t_philo *philo)
 {
-	check_die(info, philo);
-	if (info->num != 1)
-		philo_log(info, philo, "is sleeping");
-	if (info->t_eat + info->t_sleep >= info->t_die || info->num == 1)
-	{
-		while ((get_time() - philo->t_last) < info->t_die)
-			;
-		check_die(info, philo);
-		return ;
-	}
+	philo_log(info, philo, "is sleeping");
 	take_time(info->t_sleep);
 	philo_log(info, philo, "is thinking");
 	usleep(1000);
@@ -88,9 +77,8 @@ static void	*simulation(void *arg)
 			pthread_mutex_lock(&(info->cnt_m));
 			info->all_eat++;
 			pthread_mutex_unlock(&(info->cnt_m));
+			break ;
 		}
-		if (info->must_eat_cnt != 0)
-			check_finished(info);
 		sleep_think(info, philo);
 		pthread_mutex_lock(&(info->flag_m));
 	}
@@ -110,6 +98,7 @@ int	thread(t_info *info, t_philo *philo)
 			return (exit_error("Fail to create thread"));
 		i++;
 	}
+	check_finished(info, philo);
 	i = 0;
 	while (i < info->num)
 		pthread_join(philo[i++].th, NULL);
