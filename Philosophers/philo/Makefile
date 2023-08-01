@@ -6,19 +6,19 @@
 #    By: seocha <seocha@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/01 15:57:33 by seocha            #+#    #+#              #
-#    Updated: 2023/04/08 14:28:56 by seocha           ###   ########.fr        #
+#    Updated: 2023/08/01 12:33:07 by seocha           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 
 NAME = philo
 
 MANDATORY_DIR = ./srcs/
 
-SRCS = philo.c simul.c utils.c error_free.c rw_mutex.c
+SRCS = philo.c simul.c utils.c error_free.c
 
 NEW_SRCS = $(addprefix $(MANDATORY_DIR), $(SRCS))
 

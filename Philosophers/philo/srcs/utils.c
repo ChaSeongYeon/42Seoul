@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:31:43 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 11:15:47 by seocha           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:23:42 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ long long	get_time(void)
 {
 	struct timeval	time;
 
-	if (gettimeofday(&time, NULL) == -1)
-		exit_error("Failed to get time.");
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 static int	ft_isspace(char c)
@@ -49,25 +48,27 @@ static const char	*ft_space(const char *str)
 
 int	ft_atoi(const char *str)
 {
-	int			cnt;
+	int			len;
 	long long	result;
 
-	cnt = 0;
+	len = 0;
 	result = 0;
 	str = ft_space(str);
 	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
-			exit_error("The argument must be a positive number.");
+			return (exit_error("The argument must be a positive number."));
 		str++;
 	}
-	while (ft_isdigit(*str) && cnt < 11)
+	while (ft_isdigit(*str))
 	{
 		result = result * 10 + *str - '0';
 		str++;
-		cnt++;
+		len++;
+		if (result > 2147483647 || len > 10)
+			return (exit_error("The argument is out of range."));
 	}
-	if (*str != '\0' || result > 2147483647 || cnt > 10)
-		exit_error("The argument is not numeric or out of range.");
+	if (*str != '\0')
+		return (exit_error("The argument is not numeric."));
 	return ((int)result);
 }

@@ -6,43 +6,73 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:28:56 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 14:28:48 by seocha           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:33:28 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	exit_error(char *str)
+void	philo_log(t_info *info, t_philo *philo, char *str)
+{
+	long long	now;
+
+	now = get_time();
+	pthread_mutex_lock(&(info->status));
+	pthread_mutex_lock(&(info->flag_m));
+	if (!(info->flag_die))
+		printf("%lld %d %s\n", now - info->t_start, philo->id + 1, str);
+	pthread_mutex_unlock(&(info->flag_m));
+	pthread_mutex_unlock(&(info->status));
+}
+
+int	exit_error(char *str)
 {
 	printf("%s\n", str);
-	exit(1);
+	return (-1);
+}
+
+static void	check_die(t_info *info, t_philo *philo, int i, long long now)
+{
+	while (i < info->num)
+	{
+		now = get_time();
+		pthread_mutex_lock(&(info->eat_m));
+		if ((now - philo[i].t_last) >= info->t_die)
+		{
+			pthread_mutex_unlock(&(info->eat_m));
+			philo_log(info, &philo[i], "died");
+			pthread_mutex_lock(&(info->flag_m));
+			info->flag_die = 1;
+			pthread_mutex_unlock(&(info->flag_m));
+			break ;
+		}
+		pthread_mutex_unlock(&(info->eat_m));
+		i++;
+	}
 }
 
 void	check_finished(t_info *info, t_philo *philo)
 {
-	int			i;
-	long long	now;
+	int	i;
 
-	while (!(info->flag))
+	pthread_mutex_lock(&(info->flag_m));
+	while (!(info->flag_die))
 	{
+		pthread_mutex_unlock(&(info->flag_m));
 		i = 0;
-		if ((info->must_cnt != 0) && (info->all_eat == info->num))
-			info->flag = 1;
-		while (i < info->num && !(info->flag))
-		{
-			now = get_time();
-			read_lock(info);
-			if (now - philo[i].t_last >= info->t_die && !(info->flag))
-			{
-				philo_log(info, philo, "died");
-				write_lock(info);
-				info->flag = 1;
-				write_unlock(info);
-			}
-			read_unlock(info);
-			i++;
+		pthread_mutex_lock(&(info->cnt_m));
+		if ((info->must_eat_cnt != 0) && (info->all_eat == info->num))
+		{	
+			pthread_mutex_unlock(&(info->cnt_m));
+			pthread_mutex_lock(&(info->flag_m));
+			info->flag_die = 1;
+			break ;
 		}
+		pthread_mutex_unlock(&(info->cnt_m));
+		check_die(info, philo, 0, 0);
+		pthread_mutex_lock(&(info->flag_m));
 	}
+	pthread_mutex_unlock(&(info->flag_m));
 }
 
 void	free_thread(t_info *info, t_philo *philo)
@@ -57,5 +87,8 @@ void	free_thread(t_info *info, t_philo *philo)
 	}
 	free(philo);
 	free(info->forks);
-	pthread_mutex_destroy(&(info->rw));
+	pthread_mutex_destroy(&(info->status));
+	pthread_mutex_destroy(&(info->flag_m));
+	pthread_mutex_destroy(&(info->eat_m));
+	pthread_mutex_destroy(&(info->cnt_m));
 }

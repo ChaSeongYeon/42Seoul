@@ -6,7 +6,7 @@
 /*   By: seocha <seocha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 16:28:26 by seocha            #+#    #+#             */
-/*   Updated: 2023/04/08 12:29:23 by seocha           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:31:04 by seocha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,17 @@
 typedef struct s_info
 {
 	int				num;
-	int				flag;
+	int				flag_die;
 	int				all_eat;
-	int				must_cnt;
-	int				readers;
-	int				writer;
+	int				must_eat_cnt;
 	long long		t_die;
 	long long		t_eat;
 	long long		t_sleep;
 	long long		t_start;
-	pthread_mutex_t	rw;
+	pthread_mutex_t	status;
+	pthread_mutex_t	eat_m;
+	pthread_mutex_t	cnt_m;
+	pthread_mutex_t	flag_m;
 	pthread_mutex_t	*forks;
 }	t_info;
 
@@ -60,22 +61,16 @@ typedef struct s_phio
 }	t_philo;
 
 /* simul.c */
-void		thread(t_info *info, t_philo *philo);
-void		philo_log(t_info *info, t_philo *philo, char *str);
+int			thread(t_info *info, t_philo *philo);
 
 /* error_free.c */
-void		exit_error(char *str);
+int			exit_error(char *str);
+void		philo_log(t_info *info, t_philo *philo, char *str);
 void		check_finished(t_info *info, t_philo *philo);
 void		free_thread(t_info *info, t_philo *philo);
 
 /* utils.c */
 long long	get_time(void);
 int			ft_atoi(const char *str);
-
-/* rw_mutex.c */
-void		read_lock(t_info *info);
-void		read_unlock(t_info *info);
-void		write_lock(t_info *info);
-void		write_unlock(t_info *info);
 
 #endif
